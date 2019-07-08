@@ -3,9 +3,12 @@ const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
-canvas.width = 700;
-canvas.height = 700;
+const INITIAL_COLOR = "#2c2c2c";
+const CANVAS_SIZE = 700;
+canvas.width = CANVAS_SIZE;
+canvas.height = CANVAS_SIZE;
 ctx.strokeStyle = "#2c2c2c"; // 그릴 선이 이 색을 갖는다고 설정
+ctx.fillStyle = "#2c2c2c";
 ctx.lineWidth = 2.5; // 그릴 선의 너비가 2.5
 let painting = false;
 let filling = false;
@@ -40,6 +43,7 @@ function onMouseMove(event) {
 function handleColorClick(event) {
   const color = event.target.style.backgroundColor;
   ctx.strokeStyle = color;
+  ctx.fillStyle = color;
 }
 function handleColorRange(event) {
   const size = event.target.value;
@@ -54,11 +58,17 @@ function handleModeClick() {
     mode.innerText = "Paint";
   }
 }
+function handleCanvasClick() {
+  if (filling) {
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+}
 if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove); // 마우스를 움직일 때
   canvas.addEventListener("mousedown", startPainting); // 클릭했을 때 발생하는 이벤트
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
+  canvas.addEventListener("click", handleCanvasClick);
 }
 
 // Array.from 메소드는 object로부터 array를 만든다.
