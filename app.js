@@ -1,5 +1,6 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
+const colors = document.getElementsByClassName("jsColor");
 canvas.width = 700;
 canvas.height = 700;
 ctx.strokeStyle = "#2c2c2c"; // 그릴 선이 이 색을 갖는다고 설정
@@ -34,8 +35,9 @@ function onMouseMove(event) {
   }
 }
 
-function onMouseDown(event) {
-  painting = true;
+function handleColorClick(event) {
+  const color = event.target.style.backgroundColor;
+  ctx.strokeStyle = color;
 }
 if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove); // 마우스를 움직일 때
@@ -43,3 +45,8 @@ if (canvas) {
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
 }
+
+// Array.from 메소드는 object로부터 array를 만든다.
+Array.from(colors).forEach(color =>
+  color.addEventListener("click", handleColorClick)
+);
